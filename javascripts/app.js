@@ -1,13 +1,12 @@
-// Rover Object Goes Here
-// ======================
+// Iteration 1: The rover object
 var rover = {
   direction: "N",
   x: 0,
   y: 0,
-  travelLog: []
+  travelLog: [[0,0]]
 }
 
-// ======================
+// Iteration 2: Turning the rover (Left)
 function turnLeft(rover){
   switch(rover["direction"]) {
     case "N":
@@ -29,6 +28,7 @@ function turnLeft(rover){
   console.log("turnLeft was called!");
 }
 
+// Iteration 2: Turning the rover (Right)
 function turnRight(rover){
   switch(rover["direction"]) {
     case "N":
@@ -50,6 +50,7 @@ function turnRight(rover){
   console.log("turnRight was called!");
 }
 
+// Iteration 3: Moving the rover
 function moveForward(rover){
   switch(rover["direction"]) {
     case "N":
@@ -74,8 +75,10 @@ function moveForward(rover){
   }
   console.log("moveForward was called");
   console.log("Rover's position: (" + rover.x + ", " + rover.y + ")");
+  updateTravelLog(rover, rover.x, rover.y);
 }
 
+// Iteration 4: Commands
 function getCommands(rover, commands) {
   for (let i = 0; i < commands.length ; i++) {
     switch (commands[i]) {
@@ -93,4 +96,24 @@ function getCommands(rover, commands) {
         break;
       }
   }
+  console.log("getCommands was called");
+}
+
+// Iteration 5: Tracking
+function updateTravelLog(rover, posX, posY) {
+  let res = false;
+
+  console.log("updateTravelLog was called");
+
+  for (let i = 0; i < rover.travelLog.length; i++) {
+    if (posX === rover.travelLog[i][0] && posY === rover.travelLog[i][1]) {
+      res = true;
+    }
+  }
+
+  if (res === false) {
+    rover.travelLog.push([posX, posY]);
+    console.log("TravelLog has been updated.")
+  }
+
 }
