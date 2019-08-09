@@ -42,19 +42,18 @@ function setDirection(rover, val) { rover.direction = val; }
 function setPosX(rover, val) { rover.x = val; }
 function setPosY(rover, val) { rover.y = val; }
 
+
 // (MAP) Get props
 function getSizeX(map) { return map.sizeX; }
 function getSizeY(map) { return map.sizeY; }
 
-// (MAP) Functions: addObstacle, removeObstacle
+// (MAP) Set props
+function setSizeX(map, val) { map.sizeX = val; }
+function setSizeY(map, val) { map.sizeY = val; }
+
+// (MAP) Functions: addObstacle, removeObstacle, isAnObstacle, clearObstacles
 function addObstacle(map, obstaclePosX, obstaclePosY) {
-  let isInMap = false;
-  if (map.listObstacles !== []) {
-      for (let i = 0; i < map.listObstacles.length; i++) {
-        if (obstaclePosX === map.listObstacles[i][0] && obstaclePosY === map.listObstacles[i][1]) { isInMap = true; }
-      }
-    }
-  if (isInMap === false) {
+  if (isAnObstacle(map, obstaclePosX, obstaclePosY) === false) {
     map.listObstacles.push([obstaclePosX, obstaclePosY]);
   }
   console.log("New obstacle: (" + obstaclePosX + ", " + obstaclePosY + ")");
@@ -62,21 +61,31 @@ function addObstacle(map, obstaclePosX, obstaclePosY) {
 function removeObstacle(map, index) {
   map.listObstacles.splice(index, 1);
 }
+function isAnObstacle(map, obstaclePosX, obstaclePosY) {
+  let res = false;
+  if (map.listObstacles !== []) {
+      for (let i = 0; i < map.listObstacles.length; i++) {
+        if (obstaclePosX === map.listObstacles[i][0] && obstaclePosY === map.listObstacles[i][1]) { res = true; }
+      }
+    }
+  return res;
+}
+function clearObstacles(map) { map.listObstacles = []; }
 
-// (ROVER) Functions: turnLeft, turnRight, moveForward, getCommands, updateTravelLog
+// (ROVER) Functions: turnLeft, turnRight, moveForward, getCommands, updateTravelLog, initPos
 function turnLeft(rover){
-  switch(rover["direction"]) {
+  switch(getDirection(rover)) {
     case "N":
-      rover["direction"] = "W";
+      setDirection(rover, "W");
       break;
     case "S":
-      rover["direction"] = "E";
+      setDirection(rover, "E");
       break;
     case "W":
-      rover["direction"] = "S";
+      setDirection(rover, "S");
       break;
     case "E":
-      rover["direction"] = "N";
+      setDirection(rover, "N");
       break;
     default:
       console.log("Error: Undefined rover direction")
@@ -86,18 +95,18 @@ function turnLeft(rover){
   displayDirection(rover);
 }
 function turnRight(rover){
-  switch(rover["direction"]) {
+  switch(getDirection(rover)) {
     case "N":
-      rover["direction"] = "E";
+      setDirection(rover, "E");
       break;
     case "S":
-      rover["direction"] = "W";
+      setDirection(rover, "W");
       break;
     case "W":
-      rover["direction"] = "N";
+      setDirection(rover, "N");
       break;
     case "E":
-      rover["direction"] = "S";
+      setDirection(rover, "S");
       break;
     default:
       console.log("Error: Undefined rover direction");
@@ -107,46 +116,85 @@ function turnRight(rover){
   displayDirection(rover);
 }
 function moveForward(rover, map){
-  switch(rover["direction"]) {
+  let futurePosX, futurePosY;
+  switch(getDirection(rover)) {
     case "N":
-      if (getPosY(rover) > 0) { setPosY(rover, getPosY(rover) - 1); }
+      if (getPosY(rover) > 0) {
+        futurePosX = getPosX(rover);
+        futurePosY = getPosY(rover) - 1;
+      }
       break;
     case "S":
-      if (getPosY(rover) < getSizeY(map) - 1) { setPosY(rover, getPosY(rover) + 1); }
+      if (getPosY(rover) < getSizeY(map) - 1) {
+        futurePosX = getPosX(rover);
+        futurePosY = getPosY(rover) + 1;
+      }
       break;
     case "W":
-      if (getPosX(rover) > 0) { setPosX(rover, getPosX(rover) - 1); }
+      if (getPosX(rover) > 0) { 
+        futurePosX = getPosX(rover) - 1;
+        futurePosY = getPosY(rover);
+      }
       break;
     case "E":
-      if (getPosX(rover) < getSizeX(map) - 1) { setPosX(rover, getPosX(rover) + 1); }
+      if (getPosX(rover) < getSizeX(map) - 1) { 
+        futurePosX = getPosX(rover) + 1;
+        futurePosY = getPosY(rover);
+      }
       break;
     default:
       console.log("Error: Undefined rover direction");
       break;
   }
   console.log("moveForward was called!");
+  if (!isAnObstacle(map, futurePosX, futurePosY)) {
+    setPosX(rover, futurePosX);
+    setPosY(rover, futurePosY); 
+  } else {
+    console.log("Error: Cannot move due to an obstacle")
+  }
   displayPos(rover);
   updateTravelLog(rover, getPosX(rover), getPosY(rover));
 }
 function moveBackward(rover, map){
+  let futurePosX, futurePosY;
   switch(rover["direction"]) {
     case "N":
-      if (getPosY(rover) < getSizeY(map) - 1) { setPosY(rover, getPosY(rover) + 1); }
+      if (getPosY(rover) < getSizeY(map) - 1) { 
+        futurePosX = getPosX(rover);
+        futurePosY = getPosY(rover) + 1;
+      }
       break;
     case "S":
-      if (getPosY(rover) > 0) { setPosY(rover, getPosY(rover) - 1); }
+      if (getPosY(rover) > 0) { 
+        futurePosX = getPosX(rover);
+        futurePosY = getPosY(rover) - 1; 
+      }
       break;
     case "W":
-      if (getPosX(rover) < getSizeX(map) - 1) { setPosX(rover, getPosX(rover) + 1);; }
+      if (getPosX(rover) < getSizeX(map) - 1) { 
+        futurePosX = getPosX(rover) + 1;
+        futurePosY = getPosY(rover);
+      }
       break;
     case "E":
-      if (getPosX(rover) > 0) { setPosX(rover, getPosX(rover) - 1); }
+      if (getPosX(rover) > 0) { 
+        futurePosX = getPosX(rover) - 1;
+        futurePosY = getPosY(rover);
+      }
       break;
     default:
       console.log("Error: Undefined rover direction");
       break;
   }
+  
   console.log("moveBackward was called!");
+  if (!isAnObstacle(map, futurePosX, futurePosY)) {
+    setPosX(rover, futurePosX);
+    setPosY(rover, futurePosY); 
+  } else {
+    console.log("Error: Cannot move due to an obstacle")
+  }
   displayPos(rover);
   updateTravelLog(rover, getPosX(rover), getPosY(rover));
 }
@@ -182,4 +230,9 @@ function updateTravelLog(rover, posX, posY) {
     rover.travelLog.push([posX, posY]);
     // displayTravelLog(rover);
   }
+}
+function initPos(rover) {
+  setPosX(rover, 0);
+  setPosY(rover, 0);
+  displayPos(rover);
 }
