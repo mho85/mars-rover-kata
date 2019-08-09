@@ -15,7 +15,7 @@ var map = {
 
 // (ROVER) Display props
 function displayDirection(rover) { console.log("Direction: " + rover.direction); }
-function displayPos(rover) { console.log("Position: (" + rover.x + ", " + rover.y + ")"); }
+function displayPos(rover) { console.log("Position: (" + getPosX(rover) + ", " + getPosY(rover) + ")"); }
 function displayTravelLog(rover) { 
   console.log("Travel Log:")
   for (let i = 0 ; i < rover.travelLog.length; i++) {
@@ -24,13 +24,22 @@ function displayTravelLog(rover) {
 }
 
 // (MAP) Display props
-function displaySize(map) { console.log("Size: " + map.sizeX +"x" + map.sizeY); }
+function displaySize(map) { console.log("Size: " + getSizeX(map) +"x" + getSizeY(map)); }
 function displayObstacles(map) {
   console.log("List of obstacles:")
   for (let i = 0 ; i < map.listObstacles.length; i++) {
     console.log(map.listObstacles[i]); 
   }
 }
+
+// (ROVER) Get props
+function getDirection(rover) { return rover.direction; }
+function getPosX(rover) { return getPosX(rover); }
+function getPosY(rover) { return getPosY(rover); }
+
+// (MAP) Get props
+function getSizeX(map) { return getSizeX(map); }
+function getSizeY(map) { return getSizeY(map); }
 
 // (MAP) Functions: addObstacle, removeObstacle
 function addObstacle(map, obstaclePosX, obstaclePosY) {
@@ -95,16 +104,16 @@ function turnRight(rover){
 function moveForward(rover, map){
   switch(rover["direction"]) {
     case "N":
-      if (rover.y > 0) { rover.y -= 1; }
+      if (getPosY(rover) > 0) { getPosY(rover) -= 1; }
       break;
     case "S":
-      if (rover.y < map.sizeY - 1) { rover.y += 1; }
+      if (getPosY(rover) < getSizeY(map) - 1) { getPosY(rover) += 1; }
       break;
     case "W":
-      if (rover.x > 0) { rover.x -= 1; }
+      if (getPosX(rover) > 0) { getPosX(rover) -= 1; }
       break;
     case "E":
-      if (rover.x < map.sizeX - 1) { rover.x += 1; }
+      if (getPosX(rover) < getSizeX(map) - 1) { getPosX(rover) += 1; }
       break;
     default:
       console.log("Error: Undefined rover direction");
@@ -112,21 +121,21 @@ function moveForward(rover, map){
   }
   console.log("moveForward was called!");
   displayPos(rover);
-  updateTravelLog(rover, rover.x, rover.y);
+  updateTravelLog(rover, getPosX(rover), getPosY(rover));
 }
 function moveBackward(rover, map){
   switch(rover["direction"]) {
     case "N":
-      if (rover.y < map.sizeY - 1) { rover.y += 1; }
+      if (getPosY(rover) < getSizeY(map) - 1) { getPosY(rover) += 1; }
       break;
     case "S":
-      if (rover.y > 0) { rover.y -= 1; }
+      if (getPosY(rover) > 0) { getPosY(rover) -= 1; }
       break;
     case "W":
-      if (rover.x < map.sizeX - 1) { rover.x += 1; }
+      if (getPosX(rover) < getSizeX(map) - 1) { getPosX(rover) += 1; }
       break;
     case "E":
-      if (rover.x > 0) { rover.x -= 1; }
+      if (getPosX(rover) > 0) { getPosX(rover) -= 1; }
       break;
     default:
       console.log("Error: Undefined rover direction");
@@ -134,16 +143,16 @@ function moveBackward(rover, map){
   }
   console.log("moveBackward was called!");
   displayPos(rover);
-  updateTravelLog(rover, rover.x, rover.y);
+  updateTravelLog(rover, getPosX(rover), getPosY(rover));
 }
-function getCommands(rover, commands) {
+function getCommands(rover, map, commands) {
   for (let i = 0; i < commands.length ; i++) {
     switch (commands[i]) {
       case 'f':
-        moveForward(rover);
+        moveForward(rover, map);
         break;
       case 'b':
-        moveBackward(rover);
+        moveBackward(rover, map);
         break;
       case 'l':
         turnLeft(rover);
