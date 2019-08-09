@@ -65,6 +65,7 @@ function turnRight(rover){
 // Iteration 3: Moving the rover
 // Bonus: Enforce Boundaries
 // Bonus: Moving backwards
+// Bonus: Validate inputs. (Already handled by default case)
 function moveForward(rover){
   switch(rover["direction"]) {
     case "N":
