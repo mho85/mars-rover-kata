@@ -122,7 +122,7 @@ function moveBackward(rover){
       console.log("Error: Undefined rover direction");
       break;
   }
-  console.log("moveForward was called!");
+  console.log("moveBackward was called!");
   displayPos(rover);
   updateTravelLog(rover, rover.x, rover.y);
 }
