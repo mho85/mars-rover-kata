@@ -1,4 +1,4 @@
-// Iteration 1: The rover object
+// (ROVER) Object
 var rover = {
   direction: "N",
   x: 0,
@@ -6,7 +6,15 @@ var rover = {
   travelLog: [[0,0]]
 }
 
-// Bonus: Display props values
+// (MAP) Object
+var map = {
+  sizeX: 10,
+  sizeY: 10,
+  listObstacles: []
+}
+
+
+// (ROVER) Display props
 function displayDirection(rover) { console.log("Direction: " + rover.direction); }
 function displayPos(rover) { console.log("Position: (" + rover.x + ", " + rover.y + ")"); }
 function displayTravelLog(rover) { 
@@ -16,7 +24,31 @@ function displayTravelLog(rover) {
   }
 }
 
-// Iteration 2: Turning the rover (Left)
+// (MAP) Display props
+function displaySize(map) { console.log("Size: " + map.sizeX +"x" + map.sizeY); }
+function displayObstacles(map) {
+  console.log("List of obstacles:")
+  for (let i = 0 ; i < map.listObstacles.length; i++) {
+    console.log(map.listObstacles[i]); 
+  }
+}
+
+// (MAP) Functions: addObstacle, removeObstacle
+function addObstacle(map, obstaclePosX, obstaclePosY) {
+  let isInMap = false;
+  for (let i = 0; i < map.listObstacles.length; i++) {
+    if (obstaclePosX === map.listObstacles[i][0] && obstaclePosY === map.listObstacles[i][1]) { isInMap = true; }
+  }
+  if (res === false) {
+    map.listObstacles.push([obstaclePosX, obstaclePosY]);
+    console.log("New obstacle: (" + obstaclePosX + ", " + obstaclePosY + ")");
+  }
+}
+function removeObstacle(map, index) {
+  map.listObstacles.splice(index, 1);
+}
+
+// (ROVER) Functions: turnLeft, turnRight, moveForward, getCommands, updateTravelLog
 function turnLeft(rover){
   switch(rover["direction"]) {
     case "N":
@@ -38,8 +70,6 @@ function turnLeft(rover){
   console.log("turnLeft was called!");
   displayDirection(rover);
 }
-
-// Iteration 2: Turning the rover (Right)
 function turnRight(rover){
   switch(rover["direction"]) {
     case "N":
@@ -61,32 +91,19 @@ function turnRight(rover){
   console.log("turnRight was called!");
   displayDirection(rover);
 }
-
-// Iteration 3: Moving the rover
-// Bonus: Enforce Boundaries
-// Bonus: Moving backwards
-// Bonus: Validate inputs. (Already handled by default case)
-function moveForward(rover){
+function moveForward(rover, map){
   switch(rover["direction"]) {
     case "N":
-      if (rover.y > 0) {  // Otherwise the rover stays at the same position.
-        rover.y -= 1;
-      }
+      if (rover.y > 0) { rover.y -= 1; }
       break;
     case "S":
-      if (rover.y < 9) {
-        rover.y += 1;
-      }
+      if (rover.y < map.sizeY - 1) { rover.y += 1; }
       break;
     case "W":
-      if (rover.x > 0) {  // Otherwise the rover stays at the same position.
-        rover.x -= 1;
-      }
+      if (rover.x > 0) { rover.x -= 1; }
       break;
     case "E":
-      if (rover.x < 9) {
-        rover.x += 1;
-      }
+      if (rover.x < map.sizeX - 1) { rover.x += 1; }
       break;
     default:
       console.log("Error: Undefined rover direction");
@@ -96,28 +113,19 @@ function moveForward(rover){
   displayPos(rover);
   updateTravelLog(rover, rover.x, rover.y);
 }
-
-function moveBackward(rover){
+function moveBackward(rover, map){
   switch(rover["direction"]) {
     case "N":
-      if (rover.y < 9) {  // Otherwise the rover stays at the same position.
-        rover.y += 1;
-      }
+      if (rover.y < map.sizeY - 1) { rover.y += 1; }
       break;
     case "S":
-      if (rover.y > 0) {
-        rover.y -= 1;
-      }
+      if (rover.y > 0) { rover.y -= 1; }
       break;
     case "W":
-      if (rover.x < 9) {  // Otherwise the rover stays at the same position.
-        rover.x += 1;
-      }
+      if (rover.x < map.sizeX - 1) { rover.x += 1; }
       break;
     case "E":
-      if (rover.x > 0) {
-        rover.x -= 1;
-      }
+      if (rover.x > 0) { rover.x -= 1; }
       break;
     default:
       console.log("Error: Undefined rover direction");
@@ -127,8 +135,6 @@ function moveBackward(rover){
   displayPos(rover);
   updateTravelLog(rover, rover.x, rover.y);
 }
-
-// Iteration 4: Commands
 function getCommands(rover, commands) {
   for (let i = 0; i < commands.length ; i++) {
     switch (commands[i]) {
@@ -150,14 +156,10 @@ function getCommands(rover, commands) {
       }
   }
 }
-
-// Iteration 5: Tracking
 function updateTravelLog(rover, posX, posY) {
   let res = false;
   for (let i = 0; i < rover.travelLog.length; i++) {
-    if (posX === rover.travelLog[i][0] && posY === rover.travelLog[i][1]) {
-      res = true;
-    }
+    if (posX === rover.travelLog[i][0] && posY === rover.travelLog[i][1]) { res = true; }
   }
   if (res === false) {
     rover.travelLog.push([posX, posY]);
