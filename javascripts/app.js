@@ -13,7 +13,6 @@ var map = {
   listObstacles: []
 }
 
-
 // (ROVER) Display props
 function displayDirection(rover) { console.log("Direction: " + rover.direction); }
 function displayPos(rover) { console.log("Position: (" + rover.x + ", " + rover.y + ")"); }
