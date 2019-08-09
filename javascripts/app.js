@@ -6,6 +6,16 @@ var rover = {
   travelLog: [[0,0]]
 }
 
+// Bonus: Display props values
+function displayDirection(rover) { console.log("Direction: " + rover.direction); }
+function displayPos(rover) { console.log("Position: (" + rover.x + ", " + rover.y + ")"); }
+function displayTravelLog(rover) { 
+  console.log("Travel Log:")
+  for (let i = 0 ; i < rover.travelLog.length; i++) {
+    console.log(rover.travelLog[i]); 
+  }
+}
+
 // Iteration 2: Turning the rover (Left)
 function turnLeft(rover){
   switch(rover["direction"]) {
@@ -22,10 +32,11 @@ function turnLeft(rover){
       rover["direction"] = "N";
       break;
     default:
-      console.log("The direction of the rover is undefined.")
+      console.log("Error: Undefined rover direction")
       break;
   }
   console.log("turnLeft was called!");
+  displayDirection(rover);
 }
 
 // Iteration 2: Turning the rover (Right)
@@ -44,37 +55,43 @@ function turnRight(rover){
       rover["direction"] = "S";
       break;
     default:
-      console.log("The direction of the rover is undefined.");
+      console.log("Error: Undefined rover direction");
       break;
   }
   console.log("turnRight was called!");
+  displayDirection(rover);
 }
 
 // Iteration 3: Moving the rover
+// Bonud: Enforce Boundaries
 function moveForward(rover){
   switch(rover["direction"]) {
     case "N":
-      if (rover.y !== 0) {  // Otherwise the rover stays at the same position.
+      if (rover.y > 0) {  // Otherwise the rover stays at the same position.
         rover.y -= 1;
       }
       break;
     case "S":
-      rover.y += 1;
+      if (rover.y < 9) {
+        rover.y += 1;
+      }
       break;
     case "W":
-      if (rover.x !== 0) {  // Otherwise the rover stays at the same position.
+      if (rover.x > 0) {  // Otherwise the rover stays at the same position.
         rover.x -= 1;
       }
       break;
     case "E":
-      rover.x += 1;
+      if (rover.x < 9) {
+        rover.x += 1;
+      }
       break;
     default:
-      console.log("The direction of the rover is undefined.");
+      console.log("Error: Undefined rover direction");
       break;
   }
-  console.log("moveForward was called");
-  console.log("Rover's position: (" + rover.x + ", " + rover.y + ")");
+  console.log("moveForward was called!");
+  displayPos(rover);
   updateTravelLog(rover, rover.x, rover.y);
 }
 
@@ -92,28 +109,22 @@ function getCommands(rover, commands) {
         turnRight(rover);
         break;
       default:
-        console.log("Incorrect command: skip to the next one.");
+        console.log("Error: Incorrect command");
         break;
       }
   }
-  console.log("getCommands was called");
 }
 
 // Iteration 5: Tracking
 function updateTravelLog(rover, posX, posY) {
   let res = false;
-
-  console.log("updateTravelLog was called");
-
   for (let i = 0; i < rover.travelLog.length; i++) {
     if (posX === rover.travelLog[i][0] && posY === rover.travelLog[i][1]) {
       res = true;
     }
   }
-
   if (res === false) {
     rover.travelLog.push([posX, posY]);
-    console.log("TravelLog has been updated.")
+    // displayTravelLog(rover);
   }
-
 }
