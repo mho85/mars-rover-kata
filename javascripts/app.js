@@ -35,13 +35,15 @@ function displayObstacles(map) {
 // (MAP) Functions: addObstacle, removeObstacle
 function addObstacle(map, obstaclePosX, obstaclePosY) {
   let isInMap = false;
-  for (let i = 0; i < map.listObstacles.length; i++) {
-    if (obstaclePosX === map.listObstacles[i][0] && obstaclePosY === map.listObstacles[i][1]) { isInMap = true; }
-  }
-  if (res === false) {
+  if (map.listObstacles !== []) {
+      for (let i = 0; i < map.listObstacles.length; i++) {
+        if (obstaclePosX === map.listObstacles[i][0] && obstaclePosY === map.listObstacles[i][1]) { isInMap = true; }
+      }
+    }
+  if (isInMap === false) {
     map.listObstacles.push([obstaclePosX, obstaclePosY]);
-    console.log("New obstacle: (" + obstaclePosX + ", " + obstaclePosY + ")");
   }
+  console.log("New obstacle: (" + obstaclePosX + ", " + obstaclePosY + ")");
 }
 function removeObstacle(map, index) {
   map.listObstacles.splice(index, 1);
@@ -156,11 +158,13 @@ function getCommands(rover, commands) {
   }
 }
 function updateTravelLog(rover, posX, posY) {
-  let res = false;
-  for (let i = 0; i < rover.travelLog.length; i++) {
-    if (posX === rover.travelLog[i][0] && posY === rover.travelLog[i][1]) { res = true; }
+  let isInLog = false;
+  if (rover.travelLog !== []) {
+    for (let i = 0; i < rover.travelLog.length; i++) {
+      if (posX === rover.travelLog[i][0] && posY === rover.travelLog[i][1]) { isInLog = true; }
+    }
   }
-  if (res === false) {
+  if (isInLog === false) {
     rover.travelLog.push([posX, posY]);
     // displayTravelLog(rover);
   }
