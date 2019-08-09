@@ -74,3 +74,22 @@ function moveForward(rover){
   console.log("moveForward was called");
   console.log("Rover's position: (" + rover.x + ", " + rover.y + ")");
 }
+
+function getCommands(rover, commands) {
+  for (let i = 0; i < commands.length ; i++) {
+    switch (commands[i]) {
+      case 'f':
+        moveForward(rover);
+        break;
+      case 'l':
+        turnLeft(rover);
+        break;
+      case 'r':
+        turnRight(rover);
+        break;
+      default:
+        console.log("Incorrect command: skip to the next one.");
+        break;
+      }
+  }
+}
