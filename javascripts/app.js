@@ -10,7 +10,8 @@ var rover = {
 var map = {
   sizeX: 10,
   sizeY: 10,
-  listObstacles: []
+  listObstacles: [],
+  listRovers: [rover]
 }
 
 // (ROVER) Display props
