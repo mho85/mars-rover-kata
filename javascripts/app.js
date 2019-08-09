@@ -63,7 +63,8 @@ function turnRight(rover){
 }
 
 // Iteration 3: Moving the rover
-// Bonud: Enforce Boundaries
+// Bonus: Enforce Boundaries
+// Bonus: Moving backwards
 function moveForward(rover){
   switch(rover["direction"]) {
     case "N":
@@ -95,12 +96,46 @@ function moveForward(rover){
   updateTravelLog(rover, rover.x, rover.y);
 }
 
+function moveBackward(rover){
+  switch(rover["direction"]) {
+    case "N":
+      if (rover.y < 9) {  // Otherwise the rover stays at the same position.
+        rover.y += 1;
+      }
+      break;
+    case "S":
+      if (rover.y > 0) {
+        rover.y -= 1;
+      }
+      break;
+    case "W":
+      if (rover.x < 9) {  // Otherwise the rover stays at the same position.
+        rover.x += 1;
+      }
+      break;
+    case "E":
+      if (rover.x > 0) {
+        rover.x -= 1;
+      }
+      break;
+    default:
+      console.log("Error: Undefined rover direction");
+      break;
+  }
+  console.log("moveForward was called!");
+  displayPos(rover);
+  updateTravelLog(rover, rover.x, rover.y);
+}
+
 // Iteration 4: Commands
 function getCommands(rover, commands) {
   for (let i = 0; i < commands.length ; i++) {
     switch (commands[i]) {
       case 'f':
         moveForward(rover);
+        break;
+      case 'b':
+        moveBackward(rover);
         break;
       case 'l':
         turnLeft(rover);
