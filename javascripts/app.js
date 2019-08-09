@@ -34,12 +34,12 @@ function displayObstacles(map) {
 
 // (ROVER) Get props
 function getDirection(rover) { return rover.direction; }
-function getPosX(rover) { return getPosX(rover); }
-function getPosY(rover) { return getPosY(rover); }
+function getPosX(rover) { return rover.x; }
+function getPosY(rover) { return rover.y; }
 
 // (MAP) Get props
-function getSizeX(map) { return getSizeX(map); }
-function getSizeY(map) { return getSizeY(map); }
+function getSizeX(map) { return map.sizeX; }
+function getSizeY(map) { return map.sizeY; }
 
 // (MAP) Functions: addObstacle, removeObstacle
 function addObstacle(map, obstaclePosX, obstaclePosY) {
