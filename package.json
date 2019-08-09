@@ -1,0 +1,23 @@
+{
+  "name": "Mars-Rover-Kata",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mho85/mars-rover-kata.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mho85/mars-rover-kata/issues"
+  },
+  "homepage": "https://github.com/mho85/mars-rover-kata#readme",
+  "devDependencies": {
+    "eslint": "^6.1.0"
+  }
+}
