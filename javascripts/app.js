@@ -37,6 +37,11 @@ function getDirection(rover) { return rover.direction; }
 function getPosX(rover) { return rover.x; }
 function getPosY(rover) { return rover.y; }
 
+// (ROVER) Set props
+function setDirection(rover, val) { rover.direction = val; }
+function setPosX(rover, val) { rover.x = val; }
+function setPosY(rover, val) { rover.y = val; }
+
 // (MAP) Get props
 function getSizeX(map) { return map.sizeX; }
 function getSizeY(map) { return map.sizeY; }
@@ -104,16 +109,16 @@ function turnRight(rover){
 function moveForward(rover, map){
   switch(rover["direction"]) {
     case "N":
-      if (getPosY(rover) > 0) { getPosY(rover) -= 1; }
+      if (getPosY(rover) > 0) { setPosY(rover, getPosY(rover) - 1); }
       break;
     case "S":
-      if (getPosY(rover) < getSizeY(map) - 1) { getPosY(rover) += 1; }
+      if (getPosY(rover) < getSizeY(map) - 1) { setPosY(rover, getPosY(rover) + 1); }
       break;
     case "W":
-      if (getPosX(rover) > 0) { getPosX(rover) -= 1; }
+      if (getPosX(rover) > 0) { setPosX(rover, getPosX(rover) - 1); }
       break;
     case "E":
-      if (getPosX(rover) < getSizeX(map) - 1) { getPosX(rover) += 1; }
+      if (getPosX(rover) < getSizeX(map) - 1) { setPosX(rover, getPosX(rover) + 1); }
       break;
     default:
       console.log("Error: Undefined rover direction");
@@ -126,16 +131,16 @@ function moveForward(rover, map){
 function moveBackward(rover, map){
   switch(rover["direction"]) {
     case "N":
-      if (getPosY(rover) < getSizeY(map) - 1) { getPosY(rover) += 1; }
+      if (getPosY(rover) < getSizeY(map) - 1) { setPosY(rover, getPosY(rover) + 1); }
       break;
     case "S":
-      if (getPosY(rover) > 0) { getPosY(rover) -= 1; }
+      if (getPosY(rover) > 0) { setPosY(rover, getPosY(rover) - 1); }
       break;
     case "W":
-      if (getPosX(rover) < getSizeX(map) - 1) { getPosX(rover) += 1; }
+      if (getPosX(rover) < getSizeX(map) - 1) { setPosX(rover, getPosX(rover) + 1);; }
       break;
     case "E":
-      if (getPosX(rover) > 0) { getPosX(rover) -= 1; }
+      if (getPosX(rover) > 0) { setPosX(rover, getPosX(rover) - 1); }
       break;
     default:
       console.log("Error: Undefined rover direction");
